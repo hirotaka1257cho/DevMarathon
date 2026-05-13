@@ -3,18 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>案件情報入力</title>
-    <!-- Bootstrap CSSの読み込み -->
+    <title>顧客情報確認</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-5">
-        <!-- ここにHTMLを書く -->
+        <h2 class="mb-4">入力内容を確認してください</h2>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>会社名</th>
+                    <td id="companyName"></td>
+                </tr>
+                <tr>
+                    <th>業種</th>
+                    <td id="industry"></td>
+                </tr>
+                <tr>
+                    <th>連絡先</th>
+                    <td id="contact"></td>
+                </tr>
+                <tr>
+                    <th>所在地</th>
+                    <td id="location"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button id="back-btn" class="btn btn-secondary">戻る</button>
+        <button id="submit-btn" class="btn btn-primary">登録</button>
     </div>
     <script type="module">
-        <!-- ここにJSを書く -->
+        import config from '../config.js';
+ 
+        // URLパラメータから入力内容を取得して表示
+        const params = new URLSearchParams(window.location.search);
+        const companyName = params.get('companyName');
+        const industry = params.get('industry');
+        const contact = params.get('contact');
+        const location = params.get('location');
+ 
+        document.getElementById('companyName').textContent = companyName;
+        document.getElementById('industry').textContent = industry;
+        document.getElementById('contact').textContent = contact;
+        document.getElementById('location').textContent = location;
+ 
+        // 戻るボタン
+        document.getElementById('back-btn').addEventListener('click', function() {
+            window.history.back();
+        });
+ 
+        // 登録ボタン
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            fetch(config.apiUrl + '/add-customer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ companyName, industry, contact, location })
+            }).then(response => response.json())
+              .then(data => {
+                if(data.success) {
+                    alert('顧客情報が正常に保存されました。');
+                    window.location.href = './list.html';
+                } else {
+                    alert('保存に失敗しました。');
+                }
+              })
+              .catch(error => console.error('Error:', error));
+        });
     </script>
-    <!-- BootstrapのJavaScriptの読み込み -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
