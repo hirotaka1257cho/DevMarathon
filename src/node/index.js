@@ -6,10 +6,10 @@ const cors = require("cors");
 app.use(cors());
 const { Pool } = require("pg");
 const pool = new Pool({
-  user: process.env.POSTGRES_USER,
-  host: "db",
-  database: process.env.POSTGRES_DB,
-  password: process.env.POSTGRES_PASSWORD,
+  user: process.env.POSTGRES_USER || "user_hir_yokoyama",
+  host: process.env.POSTGRES_HOST || "localhost",
+  database: process.env.POSTGRES_DB || "db_hir_yokoyama",
+  password: process.env.POSTGRES_PASSWORD || "パスワード",
   port: 5432,
 });
 app.listen(port, () => {
