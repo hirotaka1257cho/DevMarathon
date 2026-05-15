@@ -1,5 +1,5 @@
 const config = {
-  apiUrl: 'http://localhost:5598'
+  apiUrl: '/api_hir-yokoyama'
 };
 
 export default config;
