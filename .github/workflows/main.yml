@@ -15,7 +15,7 @@ jobs:
           SSH_USER: ${{ secrets.DEV_SSH_USER }}
           SSH_KEY: ${{ secrets.DEV_SSH_SSH_KEY }}
       - run: ssh ${{ steps.ssh.outputs.SERVER }} bash /app/hir-yokoyama/deploy.sh hir-yokoyama
-      - run: ssh ${{ steps.ssh.outputs.SERVER }} npx cypress run --browser chrome --spec cypress/e2e/hir-yokoyama.cy.js
+      - run: ssh ${{ steps.ssh.outputs.SERVER }} "cd /ci && npx cypress run --browser chrome --spec cypress/e2e/hir-yokoyama.cy.js"
 
   deploy:
     needs: test
